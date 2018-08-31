@@ -22,7 +22,7 @@ _wge.run() {
     if [ "$expect_email" = "$actual_email" ]; then
       continue
     fi
-    logger.debug "Change git user emal in: $REPLY"
+    logger.debug "Change git user email in: $REPLY"
     git config user.email $expect_email
   done <<EOS
 $(find $target_directory -type d -name ".git")
