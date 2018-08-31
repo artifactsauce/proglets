@@ -8,7 +8,7 @@ set -eu
 : ${INTERVAL:=1} #監視間隔, 秒で指定
 
 _wge.get_stamp() {
-  ls -l --full-time $1 | awk '{print $1 $6 $7 $8 $9}' | openssl sha
+  gls -l --full-time $1 | awk '{print $1 $6 $7 $8 $9}' | openssl sha
 }
 
 _wge.run() {
