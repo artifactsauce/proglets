@@ -23,6 +23,10 @@ if [ $# -lt 1 ]; then
 fi
 
 PACKAGE_FAMILY="$1"
+if [ $# -ge 2 ]; then
+    PACKAGE_LIST="$2"
+fi
+
 : ${PACKAGE_LIST:="default"}
 : ${PACKAGE_NAME_PREFIX:=""}
 
