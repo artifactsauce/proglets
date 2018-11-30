@@ -14,7 +14,7 @@ DIR_PATH="$WORK_PARENT_PATH/$DIR_NAME"
 
 if [ -e $DIR_PATH ]; then
     logger.error "$DIR_PATH already exists."
-    exit false
+    false; exit
 fi
 
 mkdir -p $DIR_PATH
