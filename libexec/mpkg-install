@@ -72,7 +72,7 @@ case $PACKAGE_FAMILY in
     ;;
     vscode)
         PACKAGE_MANAGER="code"
-        PACKAGE_INSTALL_COMMAND="--install-extension"
+        PACKAGE_INSTALL_COMMAND="--install-extension --force"
     ;;
     *)
         logger.error "Unexpected operator: $PACKAGE_FAMILY"
