@@ -4,12 +4,9 @@
 # Help: Install packages from the package list
 # PACKAGE_FAMILY:
 #   gem
-#   cpan
-#   pip
-#   npm
 #   go
-#   apm
 #   vagrant
+#   vscode
 
 set -eu
 
