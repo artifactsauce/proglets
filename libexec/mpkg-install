@@ -63,6 +63,10 @@ case $PACKAGE_FAMILY in
     PACKAGE_MANAGER="go"
     PACKAGE_INSTALL_COMMAND="get -u"
   ;;
+  pub)
+    PACKAGE_MANAGER="pub"
+    PACKAGE_INSTALL_COMMAND="global activate"
+  ;;
   vagrant)
     PACKAGE_MANAGER="vagrant"
     PACKAGE_INSTALL_COMMAND="plugin install"
