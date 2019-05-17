@@ -54,7 +54,7 @@ if [ -z "$REPOSITORY_LIST" ]; then
   exit 1
 fi
 
-if [ -n "$BATCHREPOS_HTTP_PROXY" ]l then
+if [ -n "$BATCHREPOS_HTTP_PROXY" ]; then
   git config --global http.proxy "$BATCHREPOS_HTTP_PROXY"
 fi
 
@@ -84,6 +84,6 @@ done <<EOS
 $REPOSITORY_LIST
 EOS
 
-if [ -n "$BATCHREPOS_HTTP_PROXY" ]l then
+if [ -n "$BATCHREPOS_HTTP_PROXY" ]; then
   git config --global --unset http.proxy "$BATCHREPOS_HTTP_PROXY"
 fi
