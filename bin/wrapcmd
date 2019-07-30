@@ -9,8 +9,12 @@ NOTIFICATION_CMD="$(realpath $(dirname $0)/pushbullet-pushes.pl)"
 # NOTIFICATION_CMD="/usr/local/bin/terminal-notifier"
 
 # 時刻の取得
-wrapcmd.get_datetime() {
+wrapcmd.get_datetime_iso() {
   gdate --iso-8601=seconds
+}
+
+wrapcmd.get_datetime_flat() {
+  gdate "+%Y%m%d%H%M%S"
 }
 
 wrapcmd.count_lines() {
@@ -39,7 +43,7 @@ wrapcmd.send_notice() {
   cat <<EOF | $NOTIFICATION_CMD "${WRAPCMD_NOTIFICATION_TITLE}: $result"
 Command: $EXEC_CMD
 Start: $START_TIME
-End: $(wrapcmd.get_datetime)
+End: $(wrapcmd.get_datetime_iso)
 STDOUT: $FILE_OUT
 STDERR: $FILE_ERR
 
@@ -62,15 +66,15 @@ wrapcmd.exit() {
   rm -f $FILE_FLG
 }
 
-FILE_OUT=$(mktemp "/tmp/wrapcmd.out.XXXXXX")
-FILE_ERR=$(mktemp "/tmp/wrapcmd.err.XXXXXX")
-FILE_FLG=$(mktemp "/tmp/wrapcmd.flg.XXXXXX")
+FILE_OUT=$(mktemp "/tmp/wrapcmd.$(wrapcmd.get_datetime_flat).out.XXX")
+FILE_ERR=$(mktemp "/tmp/wrapcmd.$(wrapcmd.get_datetime_flat).err.XXX")
+FILE_FLG=$(mktemp "/tmp/wrapcmd.$(wrapcmd.get_datetime_flat).flg.XXX")
 trap 'wrapcmd.exit' EXIT
 
 cat <<EOF
 STDOUT: tail -f $FILE_OUT
 STDERR: tail -f $FILE_ERR
 EOF
-START_TIME="$(wrapcmd.get_datetime)"
+START_TIME="$(wrapcmd.get_datetime_iso)"
 EXEC_CMD="$*"
 $EXEC_CMD 1> $FILE_OUT 2> $FILE_ERR
