@@ -102,7 +102,7 @@ if type mpkg.install.do_before > /dev/null 2>&1; then
 fi
 
 cat $(dirname $0)/../share/mpkg/${PACKAGE_FAMILY}/${PACKAGE_LIST}.list \
-| grep -v '^#' \
+| grep -v -e '^#' -e '^$' \
 | xargs -I% $PACKAGE_MANAGER $PACKAGE_INSTALL_COMMAND %
 
 if type mpkg.install.do_after > /dev/null 2>&1; then
