@@ -45,17 +45,15 @@ while read REPOSITORY; do
 
   CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
   git fetch --all --prune
-  git branch --track \
-    | sed -e 's/^[ \*]*//' \
-    | while read BRANCH
-  do
+  while read BRANCH; do
     logger.debug "Branch: $BRANCH"
     git checkout $BRANCH
     if ! git merge remotes/origin/$BRANCH 2>/dev/null; then
       logger.warn "Remote branch NOT exists: $BRANCH"
       git branch --unset-upstream || true # Errorにしなくてよい
     fi
-  done
+  done < <(git branch --track | sed -e 's/^[ \*]*//')
+
   git prune
   git checkout $CURRENT_BRANCH
 
