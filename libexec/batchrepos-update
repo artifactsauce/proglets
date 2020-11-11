@@ -48,9 +48,12 @@ while read REPOSITORY; do
   while read BRANCH; do
     logger.debug "Branch: $BRANCH"
     git checkout $BRANCH
-    if ! git merge remotes/origin/$BRANCH 2>/dev/null; then
+    REMOTE_BRANCH="remotes/origin/$BRANCH"
+    if ! git branch -a | grep -Fq "$REMOTE_BRANCH" 2>/dev/null; then
       logger.warn "Remote branch NOT exists: $BRANCH"
       git branch --unset-upstream || true # Errorにしなくてよい
+    else
+      git merge --ff-only $REMOTE_BRANCH
     fi
   done < <(git branch --track | sed -e 's/^[ \*]*//')
 
