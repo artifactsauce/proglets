@@ -17,12 +17,6 @@ if [ $# -ne 2 ]; then
   false || exit
 fi
 
-OLD_NAME=$1 NEW_NAME=$2 git filter-branch --commit-filter '
-  if [ "$GIT_AUTHOR_NAME" = "$OLD_NAME" -o "$GIT_COMMITTER_NAME" = "$OLD_NAME" ];
-    then
-      GIT_COMMITTER_NAME="$NEW_NAME";
-      GIT_AUTHOR_NAME="$NEW_NAME";
-      git commit-tree "$@";
-  else
-    git commit-tree "$@";
-fi' HEAD
+OLD_NAME=$1
+NEW_NAME=$2
+git filter-repo --force --name-callback "return name.replace(b\"${OLD_NAME}\", b\"${NEW_NAME}\")"
