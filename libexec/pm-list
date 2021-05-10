@@ -4,5 +4,4 @@
 # Help: Show installed perl module list
 
 set -eu
-cd $(dirname $0)/../
-carton exec libexec/pm-list.pl $*
+$(dirname $0)/../libexec/pm-list.pl $*
