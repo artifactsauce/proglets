@@ -63,7 +63,7 @@ while read REPOSITORY; do
   if [ -n "$BATCHREPOS_HTTP_PROXY" ]; then
     git config --unset http.proxy
   fi
-done < <(find $BATCHREPOS_WORKING_DIRECTORY -name "vendor" -type d -prune -o -type d -name ".git" -print)
+done < <(find $BATCHREPOS_WORKING_DIRECTORY -name "vendor*" -type d -prune -o -type d -name ".git" -print)
 
 logger.info "Remained merged branches"
 diff -u <(git branch) <(git branch --merged) || true # 差分があった際に 1 で exit するため
