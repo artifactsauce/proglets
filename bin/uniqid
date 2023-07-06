@@ -3,11 +3,15 @@
 set -eu
 
 usage_exit() {
+  cat <<EOD
+Usage: $(basename $0) [-m HASH_METHOD] [-l CHAR_LANGTH]
+EOD
   exit 1
 }
 
-: ${HASH_METHOD:="md5sum"}
+: ${HASH_METHOD:="md5"}
 : ${CHAR_LENGTH:=7}
+: ${SEED_COMMAND:="date +%Y%m%d_%H%M%S_%3N"}
 
 while getopts m:l:h OPT; do
   case $OPT in
@@ -27,4 +31,27 @@ while getopts m:l:h OPT; do
 done
 shift $((OPTIND - 1))
 
-date +%Y%m%d_%H%M%S_%3N | $HASH_METHOD | cut -c-${CHAR_LENGTH} | tr -d "\n"
+case $HASH_METHOD in
+  "md5")
+    HASH_CMD="$SEED_COMMAND | md5sum"
+    MAX_CHAR_LENGTH=32
+    ;;
+  "sha1")
+    HASH_CMD="$SEED_COMMAND | sha1sum"
+    MAX_CHAR_LENGTH=40
+    ;;
+  "uuid")
+    HASH_CMD="uuidgen | tr \"[:upper:]\" \"[:lower:]\" | tr -d \"-\""
+    MAX_CHAR_LENGTH=32
+    ;;
+  *)
+    usage_exit
+    ;;
+esac
+
+if [ $CHAR_LENGTH -gt $MAX_CHAR_LENGTH ]; then
+  echo "[ERROR] the given value exceeds the maximum value."
+  exit 1
+fi
+
+eval $HASH_CMD | cut -c-${CHAR_LENGTH} | tr -d "\n"
