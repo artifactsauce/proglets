@@ -61,7 +61,7 @@ case $PACKAGE_FAMILY in
   ;;
   go)
     PACKAGE_MANAGER="go"
-    PACKAGE_INSTALL_COMMAND="get -u"
+    PACKAGE_INSTALL_COMMAND="install"
   ;;
   pub)
     PACKAGE_MANAGER="pub"
