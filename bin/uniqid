@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eu
+
+usage_exit() {
+  exit 1
+}
+
+: ${HASH_METHOD:="md5sum"}
+: ${CHAR_LENGTH:=7}
+
+while getopts m:l:h OPT; do
+  case $OPT in
+    m)
+      HASH_METHOD=$OPTARG
+      ;;
+    l)
+      CHAR_LENGTH=$OPTARG
+      ;;
+    h)
+      usage_exit
+      ;;
+    \?)
+      usage_exit
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+date +%Y%m%d_%H%M%S_%3N | $HASH_METHOD | cut -c-${CHAR_LENGTH} | tr -d "\n"
