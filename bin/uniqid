@@ -40,6 +40,22 @@ case $HASH_METHOD in
     HASH_CMD="$SEED_COMMAND | sha1sum"
     MAX_CHAR_LENGTH=40
     ;;
+  "sha224")
+    HASH_CMD="$SEED_COMMAND | sha224sum"
+    MAX_CHAR_LENGTH=56
+    ;;
+  "sha256")
+    HASH_CMD="$SEED_COMMAND | sha256sum"
+    MAX_CHAR_LENGTH=64
+    ;;
+  "sha384")
+    HASH_CMD="$SEED_COMMAND | sha384sum"
+    MAX_CHAR_LENGTH=96
+    ;;
+  "sha512")
+    HASH_CMD="$SEED_COMMAND | sha512sum"
+    MAX_CHAR_LENGTH=128
+    ;;
   "uuid")
     HASH_CMD="uuidgen | tr \"[:upper:]\" \"[:lower:]\" | tr -d \"-\""
     MAX_CHAR_LENGTH=32
