@@ -11,7 +11,7 @@ EOD
 
 : ${HASH_METHOD:="md5"}
 : ${CHAR_LENGTH:=7}
-: ${SEED_COMMAND:="date +%Y%m%d_%H%M%S_%3N"}
+: ${SEED_STRING:="$(date +%Y%m%d_%H%M%S_%3N)Xbf6Ulq2p1"}
 
 while getopts m:l:h OPT; do
   case $OPT in
@@ -33,27 +33,27 @@ shift $((OPTIND - 1))
 
 case $HASH_METHOD in
   "md5")
-    HASH_CMD="$SEED_COMMAND | md5sum"
+    HASH_CMD="md5sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=32
     ;;
   "sha1")
-    HASH_CMD="$SEED_COMMAND | sha1sum"
+    HASH_CMD="sha1sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=40
     ;;
   "sha224")
-    HASH_CMD="$SEED_COMMAND | sha224sum"
+    HASH_CMD="sha224sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=56
     ;;
   "sha256")
-    HASH_CMD="$SEED_COMMAND | sha256sum"
+    HASH_CMD="sha256sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=64
     ;;
   "sha384")
-    HASH_CMD="$SEED_COMMAND | sha384sum"
+    HASH_CMD="sha384sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=96
     ;;
   "sha512")
-    HASH_CMD="$SEED_COMMAND | sha512sum"
+    HASH_CMD="sha512sum < <( echo -n $SEED_STRING )"
     MAX_CHAR_LENGTH=128
     ;;
   "uuid")
