@@ -47,7 +47,15 @@ while read REPOSITORY; do
   git fetch --all --prune
   while read BRANCH; do
     logger.debug "Branch: $BRANCH"
-    git checkout $BRANCH
+    checkout_output=$(git checkout "$BRANCH" 2>&1) || {
+      if echo "$checkout_output" | grep -qE "is already (checked out|used by worktree) at"; then
+        logger.warn "Branch '$BRANCH' is checked out in a worktree, skipping"
+        continue
+      fi
+      echo "$checkout_output" >&2
+      exit 1
+    }
+    echo "$checkout_output" >&2
     REMOTE_BRANCH="remotes/origin/$BRANCH"
     if ! git branch -a | grep -Fq "$REMOTE_BRANCH" 2>/dev/null; then
       logger.warn "Remote branch NOT exists: $BRANCH"
@@ -55,7 +63,7 @@ while read REPOSITORY; do
     else
       git merge --ff-only $REMOTE_BRANCH
     fi
-  done < <(git branch --track | sed -e 's/^[ \*]*//')
+  done < <(git branch --track | sed -e 's/^[ *+]*//')
 
   git prune
   git checkout $CURRENT_BRANCH
